@@ -17,7 +17,7 @@ const mostrarProductos = new Promise ((resolve, reject) => {
   if (productos.length > 0) {
     setTimeout(() => {
       resolve(productos)
-    }, 2000)
+    }, 500)
   } else {
     reject("No se encontraron productos")
   }
@@ -54,4 +54,4 @@ return (
 
 
 
-export default ItemListContainer;
+export default ItemDetailContainer;
