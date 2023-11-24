@@ -1,57 +1,37 @@
-import React from "react";
-import { Text } from "@chakra-ui/react";
-import ItemCount from "../itemCount";
-import { calcLength } from "framer-motion";
 
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import ItemList from '../ItemList';
+import { useParams } from 'react-router-dom';
 
 const ItemListContainer = () => {
-  const productos = [
-    { id: 1, titulo: "Producto A", descripcion: "descripcion del producto A", precio: 1000, categoria: "A" },
-    { id: 2, titulo: "Producto B", descripcion: "descripcion del producto B", precio: 2000, categoria: "B" },
-    { id: 3, titulo: "Producto C", descripcion: "descripcion del producto C", precio: 3000, categoria: "C" },
-    { id: 4, titulo: "Producto D", descripcion: "descripcion del producto D", precio: 4000, categoria: "D" },
-  ]
+  const [products, setProducts] = useState([]);
+  const { categoryName } = useParams(); 
 
-
-const mostrarProductos = new Promise ((resolve, reject) => {
-  if (productos.length > 0) {
-    setTimeout(() => {
-      resolve(productos)
-    }, 2000)
-  } else {
-    reject("No se encontraron productos")
-  }
-})
-
-mostrarProductos.then((resultado) => {
-  console.log(resultado)
-})
-
-.catch((error) => {
-  console.log(error)
-})
-
-return (
-    <div>
-
-      {
-        productos.map((p) => {
-          return (
-            <div key={p.id}>
-              <h2>Producto: {p.titulo}</h2>
-              <h4>$ {p.precio}</h4>
-            </div>
-            )
+  useEffect(() => {
+    fetch('/products.json')
+      .then(response => response.json())
+      .then(data => {
+        if (categoryName) {
+          
+          const filteredProducts = data.filter(product => product.category === categoryName);
+          setProducts(filteredProducts);
+        } else {
+         
+          setProducts(data);
+        }
       })
-      }
-      {/* <ItemCount /> */}
+      .catch(error => console.error('Error al cargar los productos:', error));
+  }, [categoryName]); 
+
+  return (
+    <div>
+      <ItemList products={products} />
     </div>
-    )
-}
-  
-
-    
-
-
+  );
+};
 
 export default ItemListContainer;

@@ -1,43 +1,49 @@
 import React from "react";
 import CartWidget from "./CartWidget";
-import {
-  Flex,
-  Box,
-  Spacer,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Text,
-} from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
+import { Flex, Box, Spacer, Menu, MenuButton, MenuList, MenuItem, Text, Link, HStack } from "@chakra-ui/react";
+import { FaHome, FaTag, FaInfoCircle, FaPhone, } from 'react-icons/fa';
 
 const NavBar = () => {
   return (
-    <Flex as="nav" padding={4} boxShadow="md" alignItems="center">
-      <Text fontSize="xl" fontWeight="bold">
-        AMETRINA
-      </Text>
+    <Flex as="nav" padding={4} bgColor="teal.500" color="white" alignItems="center">
+      <Link as={RouterLink} to="/" _hover={{ textDecor: 'none' }}>
+        <HStack spacing={2}>
+          <FaHome />
+          <Text fontSize="xl" fontWeight="bold">AMETRINA</Text>
+        </HStack>
+      </Link>
       <Spacer />
-      <Menu>
-        <MenuButton>Categorias</MenuButton>
-        <MenuList opacity={0} _open={{ opacity: 1 }} transition="opacity 0.2s">
-          <MenuItem _hover={{ backgroundColor: "gray.200", color: "blue.500" }}>
-            Inicio
-          </MenuItem>
-          <MenuItem _hover={{ backgroundColor: "gray.200", color: "blue.500" }}>
-            Productos
-          </MenuItem>
-          <MenuItem _hover={{ backgroundColor: "gray.200", color: "blue.500" }}>
-            Tienda
-          </MenuItem>
-          <MenuItem _hover={{ backgroundColor: "gray.200", color: "blue.500" }}>
-            Contacto
-          </MenuItem>
-        </MenuList>
-      </Menu>
+      <HStack spacing={6}>
+        <Menu>
+          <MenuButton as="Button" rightIcon={<FaTag />} variant="ghost" colorScheme="teal" >
+            Categorías
+          </MenuButton>
+          <MenuList bgColor="gray.700">
+            <MenuItem as={RouterLink} to="/categoria/Carteras" color="teal.500">Carteras</MenuItem>
+            <MenuItem as={RouterLink} to="/categoria/Ceramicas" color="teal.500">Cerámicas</MenuItem>
+            <MenuItem as={RouterLink} to="/categoria/Blanqueria" color="teal.500">Blanquería</MenuItem>
+          </MenuList>
+        </Menu>
+        <Link as={RouterLink} to="/about" _hover={{ textDecor: 'none' }}>
+          <HStack spacing={2}>
+            <FaInfoCircle />
+            <Text>About</Text>
+          </HStack>
+        </Link>
+        <Link as={RouterLink} to="/contacto" _hover={{ textDecor: 'none' }}>
+          <HStack spacing={2}>
+            <FaPhone />
+            <Text>Contacto</Text>
+          </HStack>
+        </Link>
+      </HStack>
       <Spacer />
-      <Box p="4">
-        <CartWidget />
+      <Box p="2">
+        <Link as={RouterLink} to="/cart" _hover={{ textDecor: 'none' }}>
+          
+          <CartWidget />
+        </Link>
       </Box>
     </Flex>
   );
