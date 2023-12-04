@@ -1,7 +1,7 @@
 import React from "react";
 import CartWidget from "./CartWidget";
 import { Link as RouterLink } from "react-router-dom";
-import { Flex, Box, Spacer, Menu, MenuButton, MenuList, MenuItem, Text, Link, HStack } from "@chakra-ui/react";
+import { Flex, Box, Spacer, Menu, MenuButton, MenuList, MenuItem, Text, Link, HStack, Button } from "@chakra-ui/react";
 import { FaHome, FaTag, FaInfoCircle, FaPhone, } from 'react-icons/fa';
 
 const NavBar = () => {
@@ -16,9 +16,13 @@ const NavBar = () => {
       <Spacer />
       <HStack spacing={6}>
         <Menu>
-          <MenuButton as="Button" rightIcon={<FaTag />} variant="ghost" colorScheme="teal" >
-            Categorías
-          </MenuButton>
+        <MenuButton as={Button} variant="ghost" colorScheme="teal">
+  <HStack>
+    <FaTag />
+    <Text>Categorías</Text>
+  </HStack>
+</MenuButton>
+
           <MenuList bgColor="gray.700">
             <MenuItem as={RouterLink} to="/categoria/Carteras" color="teal.500">Carteras</MenuItem>
             <MenuItem as={RouterLink} to="/categoria/Ceramicas" color="teal.500">Cerámicas</MenuItem>
