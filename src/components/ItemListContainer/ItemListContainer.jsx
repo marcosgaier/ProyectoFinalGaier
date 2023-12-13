@@ -1,31 +1,33 @@
-
-
-
-
-
 import React, { useEffect, useState } from 'react';
 import ItemList from '../ItemList';
 import { useParams } from 'react-router-dom';
+import { collection, getDocs, getFirestore } from 'firebase/firestore';
 
 const ItemListContainer = () => {
   const [products, setProducts] = useState([]);
-  const { categoryName } = useParams(); 
+  const { categoryName } = useParams();
+  const db = getFirestore();
 
   useEffect(() => {
-    fetch('/products.json')
-      .then(response => response.json())
-      .then(data => {
+    const fetchProducts = async () => {
+      try {
+        // Obtener los documentos de la colección 'products'
+        const querySnapshot = await getDocs(collection(db, 'products'));
+        let items = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+
+        // Filtrar por categoría si categoryName está definido
         if (categoryName) {
-          
-          const filteredProducts = data.filter(product => product.category === categoryName);
-          setProducts(filteredProducts);
-        } else {
-         
-          setProducts(data);
+          items = items.filter(product => product.category === categoryName);
         }
-      })
-      .catch(error => console.error('Error al cargar los productos:', error));
-  }, [categoryName]); 
+
+        setProducts(items);
+      } catch (error) {
+        console.error('Error al cargar los productos:', error);
+      }
+    };
+
+    fetchProducts();
+  }, [categoryName]);
 
   return (
     <div>

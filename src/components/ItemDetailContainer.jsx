@@ -2,27 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ItemDetail from './ItemDetail';
 import { Spinner, Center } from '@chakra-ui/react';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 
 const ItemDetailContainer = () => {
   const [itemDetail, setItemDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { productId } = useParams();
+  const db = getFirestore();
 
   useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      fetch('/products.json')
-        .then(response => response.json())
-        .then(data => {
-          const product = data.find(p => p.id === parseInt(productId));
-          setItemDetail(product);
-          setIsLoading(false);
-        })
-        .catch(error => {
-          console.error('Error al cargar el producto:', error);
-          setIsLoading(false);
-        });
-    }, 2000);
+    const fetchProduct = async () => {
+      try {
+        setIsLoading(true);
+        const docRef = doc(db, 'products', productId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setItemDetail({ ...docSnap.data(), id: docSnap.id });
+        } else {
+          console.log('No se encontró el producto');
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error al cargar el producto:', error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchProduct();
   }, [productId]);
 
   if (isLoading) {

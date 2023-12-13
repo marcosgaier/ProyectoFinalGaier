@@ -8,7 +8,6 @@ const ItemDetail = ({ item }) => {
 
   const onAdd = (quantity) => {
     addItem(item, quantity);
-    // Aquí puedes agregar lógica adicional si es necesario
   };
 
   return (

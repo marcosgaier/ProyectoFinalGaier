@@ -12,10 +12,8 @@ const Item = ({ title, price, imagePath, description }) => {
         <Text fontWeight="bold" fontSize="xl" mt="2">
           {title}
         </Text>
-        <Text mt="2">${price}</Text>
-        <Text fontSize="sm" mt="2">
-          {description}
-        </Text>
+        
+        
       </Box>
     </Box>
   );

@@ -6,11 +6,10 @@ import ItemDetailContainer from "./components/ItemDetailContainer";
 import Home from "./components/Home";
 import About from "./components/About";
 import Cart from "./components/Cart";
-import { CartProvider } from "./components/context/CartContext"; // Asegúrate de que la ruta de importación sea correcta
-
+import { CartProvider } from "./components/context/CartContext"; 
 const App = () => {
   return (
-    <CartProvider> {/* Envuelve todo dentro de CartProvider */}
+    <CartProvider> 
       <BrowserRouter>
         <NavBar />
         <Routes>
